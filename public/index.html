@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI-Augmented vCISO Advisory for HIPAA and CMMC 2.0 Level 2 readiness." />
+  <title>vCISO Advisory | Disruptivv.AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a25;
+      --accent-cyan: #00f0ff;
+      --accent-purple: #a855f7;
+      --accent-pink: #f472b6;
+      --text-primary: #f0f0f5;
+      --text-secondary: #8888a0;
+      --text-muted: #55556a;
+      --border-color: #2a2a3a;
+      --glow-cyan: 0 0 30px rgba(0, 240, 255, 0.3);
+      --glow-purple: 0 0 30px rgba(168, 85, 247, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 30px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      margin-bottom: 30px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.1em;
+    }
+
+    .logo-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--accent-cyan); }
+      50% { opacity: 0.5; box-shadow: 0 0 5px var(--accent-cyan); }
+    }
+
+    .title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 50%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 35px;
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 240, 255, 0.1);
+      border-radius: 10px;
+      font-size: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .intro-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .intro-text strong {
+      color: var(--accent-cyan);
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .capability-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .capability-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 18px;
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .capability-item:hover {
+      border-color: var(--accent-purple);
+      transform: translateY(-2px);
+    }
+
+    .capability-marker {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--bg-primary);
+    }
+
+    .capability-content h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .capability-content p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .modern-list {
+      list-style: none;
+    }
+
+    .modern-list li {
+      padding: 12px 0;
+      padding-left: 30px;
+      position: relative;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modern-list li:last-child {
+      border-bottom: none;
+    }
+
+    .modern-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .modern-list li strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .integration-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .integration-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+
+    .integration-badge:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .integration-badge span {
+      font-size: 1rem;
+    }
+
+    .anti-section {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.05), rgba(168, 85, 247, 0.05));
+      border-color: rgba(244, 114, 182, 0.3);
+    }
+
+    .anti-section::before {
+      background: linear-gradient(180deg, var(--accent-pink), var(--accent-purple));
+    }
+
+    .anti-list li::before {
+      content: '✕';
+      color: var(--accent-pink);
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 50px;
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+    }
+
+    .cta-section::before {
+      display: none;
+    }
+
+    .cta-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      letter-spacing: 0.1em;
+    }
+
+    .cta-headline {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: var(--text-primary);
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border: none;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--bg-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 700px) {
+      .tier-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .tier-badge {
+      padding: 15px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .tier-badge:hover {
+      border-color: var(--accent-cyan);
+    }
+
+    .tier-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      margin-bottom: 5px;
+      letter-spacing: 0.05em;
+    }
+
+    .tier-focus {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 2.2rem;
+      }
+      .subtitle {
+        font-size: 1.1rem;
+      }
+      .container {
+        padding: 40px 20px;
+      }
+      .section {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <main class="container">
+    <header class="header">
+      <div class="logo-badge">DISRUPTIVV.AI</div>
+      <h1 class="title">vCISO Advisory</h1>
+      <p class="subtitle">AI-Augmented Security Leadership for the Compliance-Driven Organization</p>
+    </header>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🎯</div>
+        <h2 class="section-title">// THE ROLE</h2>
+      </div>
+      <p class="intro-text">
+        This isn't your father's CISO engagement. The <strong>vCISO Advisory</strong> service delivers fractional security leadership powered by AI agents, continuous monitoring, and automation-first workflows. We provide strategic security guidance to <strong>dental practices, healthcare organizations, and Defense Supply Chain Contractors</strong> who need HIPAA and CMMC 2.0 Level 2 compliance—without the overhead of a full-time executive hire.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">⚡</div>
+        <h2 class="section-title">// CORE CAPABILITIES</h2>
+      </div>
+      <div class="capability-grid">
+        <div class="capability-item"><div class="capability-marker">01</div><div class="capability-content"><h4>AI Risk Assessments</h4><p>Automated vulnerability scanning with intelligent prioritization and remediation pathways</p></div></div>
+        <div class="capability-item"><div class="capability-marker">02</div><div class="capability-content"><h4>NightVision AI Dashboard</h4><p>24/7 AI-powered security operations with tiered monitoring (Fledgling → Apex Owl)</p></div></div>
+        <div class="capability-item"><div class="capability-marker">03</div><div class="capability-content"><h4>Policy Generation Engine</h4><p>Automated compliance documentation mapped to HIPAA, CMMC, NIST frameworks</p></div></div>
+        <div class="capability-item"><div class="capability-marker">04</div><div class="capability-content"><h4>Strategic Roadmapping</h4><p>Quarterly security posture reviews with board-ready reporting and gap analysis</p></div></div>
+        <div class="capability-item"><div class="capability-marker">05</div><div class="capability-content"><h4>Incident Response Orchestration</h4><p>AI-assisted triage, playbook automation, and real-time containment guidance</p></div></div>
+        <div class="capability-item"><div class="capability-marker">06</div><div class="capability-content"><h4>Vendor Risk Intelligence</h4><p>Continuous third-party monitoring with automated questionnaire analysis</p></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🔗</div>
+        <h2 class="section-title">// DISRUPTIVV.AI INTEGRATION</h2>
+      </div>
+      <p class="intro-text" style="margin-bottom: 20px;">The vCISO Advisory role sits at the apex of Disruptivv.AI's service stack, leveraging our AI agent network and core offerings:</p>
+      <div class="integration-grid">
+        <div class="integration-badge"><span>🦉</span> NightVision AI</div>
+        <div class="integration-badge"><span>🔍</span> AI Risk Engine</div>
+        <div class="integration-badge"><span>📋</span> Policy Automation</div>
+        <div class="integration-badge"><span>🤖</span> 10-Agent Framework</div>
+        <div class="integration-badge"><span>📊</span> Compliance Dashboard</div>
+        <div class="integration-badge"><span>🔐</span> CMMC Readiness</div>
+      </div>
+      <div class="tier-grid">
+        <div class="tier-badge"><div class="tier-name">FLEDGLING</div><div class="tier-focus">Starter Monitoring</div></div>
+        <div class="tier-badge"><div class="tier-name">WATCHFUL</div><div class="tier-focus">Enhanced Detection</div></div>
+        <div class="tier-badge"><div class="tier-name">NIGHTHAWK</div><div class="tier-focus">Full SOC Coverage</div></div>
+        <div class="tier-badge"><div class="tier-name">APEX OWL</div><div class="tier-focus">vCISO + Enterprise</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">📦</div>
+        <h2 class="section-title">// DELIVERABLES</h2>
+      </div>
+      <ul class="modern-list">
+        <li><strong>AI Security Posture Report</strong> — Monthly AI-generated executive summary with threat landscape analysis and remediation priorities</li>
+        <li><strong>AI Compliance Gap Dashboard</strong> — Real-time HIPAA/CMMC control mapping with evidence collection automation</li>
+        <li><strong>AI Board Briefing Package</strong> — Quarterly strategic materials on risk trends, investments, and security maturity progression</li>
+        <li><strong>AI Incident Playbooks</strong> — Custom response workflows integrated with your environment and alert thresholds</li>
+        <li><strong>AI Vendor Risk Register</strong> — Continuously updated third-party security assessments with AI-scored risk ratings</li>
+        <li><strong>AI Policy Library Access</strong> — Full suite of 34+ compliance-mapped security policies (GOV-001 through AI-001)</li>
+        <li><strong>AI-Assisted Advisory Hours</strong> — Direct access for strategic decisions, audit support, and incident escalation</li>
+      </ul>
+    </section>
+
+    <section class="section anti-section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🚫</div>
+        <h2 class="section-title">// WHAT THIS IS NOT</h2>
+      </div>
+      <ul class="modern-list anti-list">
+        <li><strong>Not a checkbox consultant</strong> — We don't hand you a binder and disappear. AI agents work continuously.</li>
+        <li><strong>Not traditional MSSP</strong> — No legacy SIEM sprawl, no alert fatigue, no tier-1 analyst bottlenecks.</li>
+        <li><strong>Not a full-time hire overhead</strong> — Fractional model means enterprise-grade leadership at SMB budgets.</li>
+        <li><strong>Not compliance theater</strong> — Every control maps to actual risk reduction, not audit appeasement.</li>
+        <li><strong>Not reactive-only</strong> — Proactive threat hunting and posture hardening are default, not add-ons.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" aria-hidden="true">🎯</div>
+        <h2 class="section-title">// IDEAL CLIENT PROFILE</h2>
+      </div>
+      <ul class="modern-list">
+        <li><strong>Dental & Healthcare Practices</strong> — HIPAA compliance pressure with limited IT resources</li>
+        <li><strong>Defense Supply Chain Contractors</strong> — CMMC 2.0 Level 2 certification requirements looming</li>
+        <li><strong>Growing Organizations (25-500 employees)</strong> — Past the startup phase but not ready for a $300K+ CISO hire</li>
+        <li><strong>Compliance-First Mindset</strong> — Leadership that views security as a business enabler, not a cost center</li>
+        <li><strong>Tech-Forward Operations</strong> — Already leveraging cloud services, open to AI-augmented workflows</li>
+      </ul>
+    </section>
+
+    <section class="section cta-section">
+      <div class="cta-title">// READY TO DISRUPT?</div>
+      <h3 class="cta-headline">Security leadership that scales with you—<br />powered by AI, delivered by Disruptivv.</h3>
+      <a href="mailto:contact@disruptivv.ai" class="cta-button">Start the Conversation <span aria-hidden="true">→</span></a>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-logo">DISRUPTIVV.AI</div>
+      <p>AI-Powered Cybersecurity | Peoria, Arizona</p>
+      <p style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted);">One Human Principal. Ten AI Agents. Infinite Vigilance.</p>
+    </footer>
+  </main>
+</body>
+</html>
